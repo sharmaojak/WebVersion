@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Shi Hari Natural Farming Products Centre</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="Index.js"></script>
+    <link rel="stylesheet" type="text/css" href="Index.css">
+</head>
+<body>
+<button onclick="showMessage('Call  8920996600, WhatsAppp 9910514018')" style="width:auto;height:20%;font-size:12px">Contact Us</button>
+<div id="loginRegister" style="position:relative;right:0;opacity:0.8">
+    <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;height:20%;font-size:12px">Login</button>
+    <span><button onclick="document.getElementById('id02').style.display='block'" style="width:auto;height:20%;font-size:12px">Register</button></span>
+</div>
+
+<div id="logOut" style="position:relative;right:0;opacity:0.8;display:none">
+    <button onclick="cleanData(this)" style="width:auto;height:20%;font-size:12px">Log Out</button>
+
+</div>
+<div id="cartinfo" style="display:none">
+    <button  id="cart" onclick="showTable()" style="width:auto;overflow:scroll;font-size:16px;display:inline-block;background-color: #0000"><img src="cart.png" alt="cart" width="50" height="50"></button>
+    <div  id="productCounter" style="width:auto;height:auto;font-size:16px;position:absolute;display:inline-block;background-color: #0000"></div>
+</div>
+<div id="WelcomeUser" style="text-align:center;font-size:x-large;font-style:italic;color:rgb(0, 0, 255)"></div>
+<div id="ShriHari" style="text-align:center;font-size:25px;font-family:cursive;color:rgb(0, 0, 0)">(GSTIN: 09BCVPS5302R1ZJ)<br>(Certified Organic Farming)<br>Shri Hari Natural Farming Products Centre<br><div id ="loader" class="loader" style="display:none;margin:auto"></div></div>
+
+
+
+<!--Start of Login Form-->
+<div id="id01" class="modal">
+    <form class="modal-content animate" id="LoginForm"  onsubmit="getFormData('LoginForm',event,'loginUser')"  method="post">
+        <div class="imgcontainer">
+            <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+            <img src="user.png" alt="Avatar" width="5%">
+        </div>
+
+        <div class="container">
+            <label for="uname"><b>Username</b></label>
+            <input type="text" id="uname" placeholder="Enter Username" name="userName" required>
+
+            <label for="psw"><b>Password</b></label>
+            <input type="password" id="psw" placeholder="Enter Password" name="password" required>
+            <div id="info" style="text-align:center;margin-top:10px;font-size:x-large;color:rgb(255, 0, 0);display:none"></div>
+            <button type="submit" >Login</button>
+
+        </div>
+
+        <div class="container" style="background-color:#f1f1f1">
+            <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+<!--            <span class="psw">Forgot <a href="#">password?</a></span>-->
+        </div>
+    </form>
+</div>
+<!--End of Login Form-->
+
+<!--Start of Register Form-->
+<div id="id02" class="modal">
+    <form class="modal-content animate" id="RegisterForm" onsubmit="getFormData('RegisterForm',event,'registerUser')" method="post">
+        <div class="imgcontainer">
+            <span onclick="document.getElementById('id02').style.display='none'" class="close" title="Close Modal">&times;</span>
+            <img src="user.png" alt="Avatar" width="5%">
+        </div>
+
+        <div class="container">
+            <label for="userFullName"><b>User Full Name</b></label>
+            <input type="text" id="userFullName" placeholder="Enter User Full Name" name="userFullName" required>
+
+            <label for="userName"><b>User ID</b></label>
+            <input type="text" id="userName" placeholder="Enter Username ID" name="userName" required>
+
+            <label for="password"><b>Password</b></label>
+            <input type="password" id="password" placeholder="Enter password" name="password" required>
+            <label for="retypePassword"><b> Retype Password</b></label>
+            <input type="password" id="retypePassword" placeholder="Enter password again" name="retypePassword" required>
+
+            <label for="mobileNumber"><b>MobileNo</b></label>
+            <input type="number" id="mobileNumber" placeholder="Enter Mobile Number" name="mobileNumber" required>
+            <br><br>
+            <label for="userAddress"><b>Address</b></label>
+            <input type="text" id="userAddress" placeholder="Enter Address" name="userAddress" required>
+            <input type="hidden" id="accessRights" name="accessRights" value="user">
+            <button type="submit">Register</button>
+        </div>
+
+        <div class="container" style="background-color:#f1f1f1">
+            <button type="button" onclick="document.getElementById('id02').style.display='none'" class="centered">Cancel</button>
+<!--            <span class="psw">Forgot <a href="#">password?</a></span>-->
+        </div>
+    </form>
+</div>
+<!--End of Register Form-->
+
+
+<!--Start of Billing Form-->
+<div id="billForm" class="modal">
+    <form class="modal-content animate" onsubmit="event.preventDefault();">
+        <div class="imgcontainer">
+            <span onclick="document.getElementById('billForm').style.display='none'" class="close" title="Close Modal">&times;</span>
+            <img src="user.png" alt="Avatar" width="5%">
+        </div>
+        <div class="container" >
+            <table id="itemsDetailsTable" ></table>
+        </div>
+        <div class="container" style="background-color:#f1f1f1">
+
+            <button type="button" onclick="document.getElementById('billForm').style.display='none'" class="cancelbtn">Cancel</button>
+
+        </div>
+    </form>
+</div>
+<!--End of Billing Form-->
+
+<!--Start of alert -->
+<div id="alertForm" class="modal">
+    <form class="modal-content animate" onsubmit="event.preventDefault();">
+        <div class="imgcontainer">
+            <span onclick="document.getElementById('alertForm').style.display='none'" class="close" title="Close Modal">&times;</span>
+            <img src="user.png" alt="Avatar" width="5%">
+        </div>
+        <div class="container" >
+            <div id="message" style="text-align:center" ></div>
+        </div>
+        <div class="container" style="background-color:#f1f1f1">
+
+            <button type="button" onclick="document.getElementById('alertForm').style.display='none'" class="centered">OK</button>
+
+        </div>
+    </form>
+</div>
+<!--End of alert -->
+
+
+<script >
+$("#loader").show();
+    $( document ).ready(function() {
+$.ajax({
+    crossOrigin: true,
+<!--    url: "http://43.204.140.113:8080/productList",-->
+ url: "http://localhost:8080/productList",
+    data: {
+
+    },
+  type: "GET",
+    dataType : "json",
+}).done(function( json ) {
+$("#loader").hide();
+console.log(document.getElementById("ShriHari"));
+products=JSON.stringify(json);
+console.log("this.products==="+products);
+$.each(json, function(key,value) {
+   // here `value` refers to the objects
+   var elem = document.createElement('div');
+   elem.style="margin-top:10px;font-size:25px";
+<!--   elem.setAttribute('class',"containerText");-->
+   elem.setAttribute('id',value.productId);
+
+    var img = document.createElement('img');
+
+    img.src=value.productId+".jpg";
+   // elem.innerHTML=value.productName;
+    elem.appendChild(img);
+
+var textContent = document.createElement('div');
+    textContent.setAttribute('class',"centered");
+    textContent.innerHTML=value.productName+" Rs"+value.productRate;
+    elem.appendChild(textContent);
+
+<!-- start Button to add product as text value add to cart-->
+    var addToCartButton = document.createElement('button');
+          addToCartButton.style="width:auto;font-size:16px;display:none";
+         if(value.availabilityInKg>0){
+          addToCartButton.innerHTML="Add To Cart";
+          addToCartButton.addEventListener("click", (event) => {
+          var index=event.target.id;
+          var quantity=1;
+          console.log("index=================="+index);
+          console.log(document.getElementById(value.productId).childNodes[3]);
+          $(document.getElementById(value.productId).childNodes[3]).hide();
+          $(document.getElementById(value.productId).childNodes[3]).show('slow');
+          $(document.getElementById(value.productId).childNodes[3]).hide('slow');
+         if(!checkItemInExsitingList(value.productId))
+          itemDetails.push(new item( value.productId,value.productName,quantity, value.productRate,quantity*value.productRate,value.gstRate,quantity*value.gstRate) );
+           document.getElementById("productCounter").innerHTML=itemDetails.length;
+	        console.log("clicked element j=="+JSON.stringify(itemDetails));
+          });
+          }else
+          addToCartButton.innerHTML="Out Of Stock";
+           elem.appendChild(addToCartButton);
+
+
+<!--          addToCartButton.setAttribute("id",k);-->
+<!-- end Button to add product as text value add to cart--     -->
+var alert = document.createElement('div');
+    alert.setAttribute('class',"centered");
+    alert.style.display="none";
+alert.innerHTML=value.productName+" added to cart";
+elem.appendChild(alert);
+
+
+document.getElementById("ShriHari").appendChild(elem);
+   console.log(value.productName);
+   console.log("alert.style.top===="+alert.style.top);
+});
+console.log(json);
+
+  }).fail(function( xhr, status, errorThrown ) {
+    alert( "Sorry, there was a problem!" );
+    console.log( "Error: " + errorThrown );
+    console.log( "Status: " + status );
+    console.dir( xhr );
+  })
+  // Code to run regardless of success or failure;
+  .always(function( xhr, status ) {
+   // alert( "The request is complete!" );
+  });
+});
+
+</script>
+
+
+</body>
+</html>
