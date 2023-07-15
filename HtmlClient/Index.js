@@ -57,6 +57,7 @@ function getFormData(formId,event,endpoint){
          userUniqueId=JSON.parse(data).registerLoginId;
          if(JSON.parse(data).accessRights=="admin"){
             ajaxCall(null,"GET","getUndeliveredOrders");
+            return;
 
          }
          var list=JSON.parse(products);
@@ -70,8 +71,7 @@ function getFormData(formId,event,endpoint){
          break;
         }
         case "getUndeliveredOrders" :{
-        $("#UndeliveredOrdersList").show();
-        console.log(data);
+         showUndeliveredOrderList(data);
         break;
         }
         case "registerUser": {
@@ -229,6 +229,55 @@ function checkItemInExsitingList(currentId){
 }
 
 
+function showUndeliveredOrderList(data){
+      $("#loader").hide();
+      var dom= document.getElementById("ShriHari");
+        $("#UndeliveredOrdersList").show();
+
+        dom.innerHTML="";
+         var table= document.getElementById("UndeliveredOrdersList");
+               $("#UndeliveredOrdersList tr").remove();
+                   var rowHeader = table.insertRow(0);
+                   rowHeader.appendChild(returnTableHeader("OrderID"));
+                   rowHeader.appendChild(returnTableHeader("Total Price"));
+                   rowHeader.appendChild(returnTableHeader("Details"));
+                   var orderList=JSON.stringify(data);
+                   console.log("orderList==="+orderList);
+                   console.log("length=="+data.length);
+                   for(var index=0;index<data.length;index++){
+                       var row = table.insertRow(1+index);
+                       var cell1 = row.insertCell(0);
+                       var cell2 = row.insertCell(1);
+                       var cell3 = row.insertCell(2);
+                       cell1.innerHTML=data[index].orderDetailId;
+                       cell2.innerHTML=data[index].totalPrice;
+                       cell3.innerHTML="<button onclick=removeItem(this.parentNode.parentNode)>click to view details</button>"
+                       }
+
+       /* $.each(data, function(key,value) {
+            // here `value` refers to the objects
+            var elem = document.createElement('div');
+            elem.style="margin-top:10px;font-size:25px";
+         <!--   elem.setAttribute('class',"containerText");-->
+            elem.setAttribute('id',value.orderDetailId);
+         var textContent = document.createElement('div');
+             textContent.setAttribute('class',"centered");
+             textContent.innerHTML=value.orderDetailId;
+             elem.appendChild(textContent);
+
+         <!--  Button to view details of the order-->
+             var addToCartButton = document.createElement('Detail');
+                   addToCartButton.style="width:auto;font-size:16px;display:block";
+                    elem.appendChild(addToCartButton);
+
+
+            dom.appendChild(elem);
+            console.log(value.orderDetailId+"====Value");
+
+         });*/
+
+
+}
 
 
 
@@ -317,7 +366,7 @@ function ajaxCall(payload,methodType,endpoint){
       success: function (data) {
       value=JSON.stringify(data);
         console.log("response===="+value);
-            if(endpoint=="productList")
+            if((endpoint=="productList")||(endpoint=="getUndeliveredOrders"))
              value=data;
  }
     });
