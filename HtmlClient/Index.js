@@ -1,6 +1,7 @@
 
 var products=null;
 var itemDetails=[];
+var undeliveredOrderList=[];
 var modal = document.getElementById('id01');
 var modal1=document.getElementById('id02');
 var insertHeaders=true;
@@ -251,7 +252,9 @@ function showUndeliveredOrderList(data){
                        var cell3 = row.insertCell(2);
                        cell1.innerHTML=data[index].orderDetailId;
                        cell2.innerHTML=data[index].totalPrice;
-                       cell3.innerHTML="<button onclick=removeItem(this.parentNode.parentNode)>click to view details</button>"
+                       console.log("data[index]=="+data[index].itemDetails[index].productName);
+                       this.UndeliveredOrdersList[index]=data[index];
+                       cell3.innerHTML="<button onclick=showTable("+index+")>click to view details</button>";
                        }
 
        /* $.each(data, function(key,value) {
@@ -281,8 +284,17 @@ function showUndeliveredOrderList(data){
 
 
 
-function showTable(){
-    console.log("inside shoow table");
+function showTable( indexOfList){
+
+    console.log("undeliveredOrder===="+indexOfList);
+
+    var orderFlag=false;
+    if(indexOfList!=null){
+      orderFlag=true;
+      this.itemDetails=this.UndeliveredOrdersList[indexOfList].itemDetails;
+      console.log("itemDetails===");
+    }
+
     if(itemDetails.length==0){
      showMessage("You have not added any product in the cart, add at least one product to cart");
      return;
@@ -297,7 +309,12 @@ function showTable(){
                    rowHeader.appendChild(returnTableHeader("Rate"));
                    rowHeader.appendChild(returnTableHeader("GST %"));
                    rowHeader.appendChild(returnTableHeader("Total Price"));
-                   rowHeader.appendChild(returnTableHeader("Remove From List"));
+                   if(!orderFlag){
+                     rowHeader.appendChild(returnTableHeader("Remove From List"));
+                   }
+                   else{
+                     rowHeader.appendChild(returnTableHeader(this.UndeliveredOrdersList[indexOfList].registerLogin.userFullName+this.UndeliveredOrdersList[indexOfList].registerLogin.userAddress));
+                   }
                    var totalPrice=0;
                    for(var index=0;index<itemDetails.length;index++){
                     var row = table.insertRow(1+index);
@@ -309,10 +326,11 @@ function showTable(){
                     var cell6 = row.insertCell(5);
                     cell1.innerHTML = itemDetails[index].productName;
                     cell2.innerHTML = itemDetails[index].quantity;
-                    cell3.innerHTML = itemDetails[index].price;
+                    cell3.innerHTML = itemDetails[index].totalprice/itemDetails[index].quantity;
                     cell4.innerHTML = itemDetails[index].gst;
                     cell5.innerHTML = itemDetails[index].totalprice;
                     totalPrice=totalPrice+itemDetails[index].totalprice;
+                    if(!orderFlag)
                     cell6.innerHTML="<button onclick=removeItem(this.parentNode.parentNode)>Remove</button>";
 
                    }
@@ -324,7 +342,10 @@ function showTable(){
                      var totalGSTOfOrder=(totalPrice*5/100);
                      totalAmountRow.insertCell(3).innerHTML=totalGSTOfOrder;
                     totalAmountRow.insertCell(4).innerHTML=totalPrice;
+                    if(!orderFlag)
                     totalAmountRow.insertCell(5).innerHTML="<button onclick=viewData("+totalGSTOfOrder+","+totalPrice+")>Save Order</button>";
+                    else
+                     totalAmountRow.insertCell(5).innerHTML=UndeliveredOrdersList[indexOfList].registerLogin.userFullName;
 }
 
 
@@ -345,7 +366,7 @@ function showTable(){
 function removeItem(selectedIndex){
    console.log("selectedIndex==============="+selectedIndex.rowIndex);
  itemDetails.splice(selectedIndex.rowIndex-1,1);
-showTable();
+showTable(null);
 }
 /*method to remove an item from the productList start*/
 
