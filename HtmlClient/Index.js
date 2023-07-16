@@ -110,7 +110,7 @@ function getFormData(formId,event,endpoint){
 
      var img = document.createElement('img');
 
-     img.src=value.productId+".jpg";
+     img.src=value.productId+".jpeg";
     // elem.innerHTML=value.productName;
      elem.appendChild(img);
 
@@ -348,8 +348,7 @@ function showTable( indexOfList){
                     totalAmountRow.insertCell(4).innerHTML=totalPrice;
                     if(!orderFlag)
                     totalAmountRow.insertCell(5).innerHTML="<button onclick=viewData("+totalGSTOfOrder+","+totalPrice+")>Save Order</button>";
-                    else
-                     totalAmountRow.insertCell(5).innerHTML=UndeliveredOrdersList[indexOfList].registerLogin.userFullName;
+
 }
 
 
