@@ -292,7 +292,6 @@ function showTable( indexOfList){
     if(indexOfList!=null){
       orderFlag=true;
       this.itemDetails=this.UndeliveredOrdersList[indexOfList].itemDetails;
-      console.log("itemDetails===");
     }
 
     if(itemDetails.length==0){
@@ -300,6 +299,11 @@ function showTable( indexOfList){
      return;
     }
     document.getElementById("billForm").style.display="block";
+        var elem = document.createElement('div');
+        elem.style="margin-top:10px;font-size:25px";
+        elem.innerHTML="Hi";
+
+    document.getElementById("billForm").appendChild(elem);
     var table=document.getElementById("itemsDetailsTable");
     table.style.display="block";
                 $("#itemsDetailsTable tr").remove();
@@ -313,7 +317,7 @@ function showTable( indexOfList){
                      rowHeader.appendChild(returnTableHeader("Remove From List"));
                    }
                    else{
-                     rowHeader.appendChild(returnTableHeader(this.UndeliveredOrdersList[indexOfList].registerLogin.userFullName+this.UndeliveredOrdersList[indexOfList].registerLogin.userAddress));
+                     rowHeader.appendChild(returnTableHeader("Name: "+this.UndeliveredOrdersList[indexOfList].registerLogin.userFullName+"<br>Address: "+this.UndeliveredOrdersList[indexOfList].registerLogin.userAddress+"<br>Mob No: "+this.UndeliveredOrdersList[indexOfList].registerLogin.mobileNumber));
                    }
                    var totalPrice=0;
                    for(var index=0;index<itemDetails.length;index++){
@@ -380,8 +384,8 @@ function ajaxCall(payload,methodType,endpoint){
       type: methodType,
       contentType:  "application/json",
       crossOrigin: true,
-//      url: "http://43.204.140.113:8080/"+endpoint,
-        url: "http://localhost:8080/"+endpoint,
+      url: "http://43.204.140.113:8080/"+endpoint,
+//        url: "http://localhost:8080/"+endpoint,
       data: JSON.stringify(payload),
       async: false,
       success: function (data) {
